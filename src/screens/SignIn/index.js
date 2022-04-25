@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text} from 'react-native';
+import {Alert, Text} from 'react-native';
 import BarberLogo from '../../assets/barber.svg';
 import SignInput from '../../components/SignInput';
 import {
@@ -14,7 +14,7 @@ import {
 
 import { useNavigation
 } from '@react-navigation/native';
-
+import Api from '../../Api'
 
 
 import EmailIcon from '../../assets/email.svg';
@@ -31,10 +31,21 @@ export default () => {
     navigation.reset({
         routes:[{name: 'SignUp'}]
     })
-    
+
   };
-  const handleSignClick = () => {
+  const handleSignClick = async () => {
  
+    if(emailField != '' && passwordField != ''){
+        let json = await Api.signIn(emailField,passwordField);
+        if(json.token){
+  alert("deu certo ")
+        }else {
+            Alert.alert('Alerta','Email or passwrod errado')
+        }
+     
+    }else{
+           Alert.alert('Alerta ', 'Preencha os campos!')
+    }
   };
 
   return (
